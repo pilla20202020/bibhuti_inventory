@@ -1,0 +1,36 @@
+.btn-addunit {
+    border: 1px solid #ededed;
+    background: #44a2d2;
+    color: #fff;
+    padding: 7px;
+}
+.logo-lg img {
+    height: 65px;
+    width: 65px;
+}
+.companyname {
+    color: #fff;
+}
+
+/* ScroolBar CSS */
+div::-webkit-scrollbar {
+    height: 5px;
+}
+
+div::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+div::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+/* ScroolBar CSS */
+
+.navbar-header h2 {
+    font-size: 30px;
+    font-weight: 600;
+}
+

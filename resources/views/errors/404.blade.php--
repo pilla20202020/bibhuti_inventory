@@ -1,0 +1,33 @@
+@extends('layouts.admin.admin')
+@section('content')
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h1 class="text-center font-weight-bolder" style="font-size: 7.3rem; poition:relative;">404</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="text-center font-weight-bolder text-uppercase" style="font-size: 2.5rem; margin-top: -20px;">Forbidden</h4>
+                    </div>
+                </div>
+                <div class="row my-4">
+                    <div class="col-12 text-center">
+                        <h6 class="text-center text-uppercase" style="font-size: 1.3rem;">Sorry, You are not allowed to perform this action.</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <a href="{{route('dashboard')}}" class="btn btn-primary btn-lg" style="margin-left: 15px;"><i class="fa fa-arrow-left mr-2" aria-hidden="true"></i>Back To Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
