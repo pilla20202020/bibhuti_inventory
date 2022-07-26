@@ -22,15 +22,13 @@
             </div>
             <div class="card mt-2 p-4">
                 <div class="table-responsive">
-                    <table id="datatable" class="table table-bordered">
+                    <table id="datatable" class="table border-0 table-striped">
+
                         <thead>
                         <tr>
                             <th>ID</th>
                             <th>S.No.</th>
                             <th>Permission Name</th>
-                            <th>Visibility</th>
-                            <th>Availability</th>
-                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -74,9 +72,6 @@
                     { "data": "id",  'visible': false },
                     { "data": "DT_RowIndex",  orderable: false, searchable: false },
                     { "data": "name" },
-                    { "data": "visibility" },
-                    { "data": "availability" },
-                    { "data": "status" },
                     { "data": "actions", orderable: false, searchable: false },
                 ],
                 order: [ [0, 'desc'] ]

@@ -6,13 +6,13 @@
     <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}"/>
 @endsection
 
-@section('title', 'Purchase Order List')
+@section('title', 'Purchase Entry List')
 
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="d-flex">
-                <header class="text-capitalize pt-1">Purchase Order List</header>
+                <header class="text-capitalize pt-1">Purchase Entry List</header>
                 <div class="tools ml-auto">
                     <a class="btn btn-primary ink-reaction" href="{{ route('purchase_entry.create') }}">
                         <i class="md md-add"></i>
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="card mt-2 p-4">
-                <table id="datatable" class="table table-bordered">
+                <table id="datatable" class="table border-0 table-striped">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -72,9 +72,9 @@
                 "columns": [
                     { "data": "id",  'visible': false },
                     { "data": "DT_RowIndex",  orderable: false, searchable: false },
-                    { "data": "product" },
-                    { "data": "supplier" },
-                    { "data": "category" },
+                    { "data": "product_name" },
+                    { "data": "supplier_name" },
+                    { "data": "category_name" },
                     { "data": "available_stock" },
                     { "data": "defective_stock" },
                     { "data": "actions", orderable: false, searchable: false },

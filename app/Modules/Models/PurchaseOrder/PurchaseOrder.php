@@ -60,4 +60,5 @@ class PurchaseOrder extends Model
     public function product(){
         return $this->belongsTo('App\Modules\Models\Product\Product', 'product_id','id');
     }
+
 }

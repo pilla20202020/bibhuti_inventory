@@ -6,6 +6,7 @@ use App\Modules\Models\PurchaseOrder\PurchaseOrder;
 use App\Modules\Service\Service;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class PurchaseOrderService extends Service
@@ -23,44 +24,22 @@ class PurchaseOrderService extends Service
     public function getAllData()
 
     {
-        $query = $this->purchaseorder->whereIsDeleted('no');
+        $query = "SELECT pe.id,pe.requested_stock,pe.invoice,pe.buying_price,pe.buying_date,pe.is_approved,p.name as product_name,s.name as supplier_name,c.name as category_name FROM purchase_orders pe INNER JOIN products p ON pe.product_id = p.id INNER JOIN suppliers s ON p.supplier_id = s.id INNER JOIN categories c ON p.category_id = c.id";
+        $query = DB::select($query);
         return DataTables::of($query)
             ->addIndexColumn()
-            ->editColumn('supplier',function(PurchaseOrder $purchaseorder) {
-                if($purchaseorder->product->supplier->name) {
-                    return $purchaseorder->product->supplier->name;
-                }
-            })
-            ->editColumn('category',function(PurchaseOrder $purchaseorder) {
-                if($purchaseorder->product->category->name) {
-                    return $purchaseorder->product->category->name;
-                }
-            })
-            ->editColumn('product',function(PurchaseOrder $purchaseorder) {
-                if($purchaseorder->product->name) {
-                    return $purchaseorder->product->name;
-                }
-            })
-            ->editColumn('is_approved',function(PurchaseOrder $purchaseorder) {
-                if($purchaseorder->is_approved == 'approved'){
+            ->editColumn('is_approved',function($query) {
+                if($query->is_approved == 'approved'){
                     return '<span class="badge badge-info">Approved</span>';
                 } else {
                     return '<span class="badge badge-danger">UnApproved</span>';
                 }
             })
-            ->editColumn('image',function(PurchaseOrder $purchaseorder) {
-                if(isset($purchaseorder->image_path)){
-                    return '<img src="http://127.0.0.1:8000/'.($purchaseorder->image_path).'" width="100px">';
-                } else {
-                    ;
-                }
-            })
-            ->editcolumn('actions',function(PurchaseOrder $purchaseorder) {
-                $editRoute =  route('purchaseorder.edit',$purchaseorder->id);
-                $deleteRoute =  route('purchaseorder.destroy',$purchaseorder->id);
-                return getTableHtml($purchaseorder,'actions',$editRoute,$deleteRoute);
-                return getTableHtml($purchaseorder,'image');
-            })->rawColumns(['is_approved','image'])->make(true);
+            ->editcolumn('actions',function($query) {
+                $editRoute =  route('purchaseorder.edit',$query->id);
+                $deleteRoute =  route('purchaseorder.destroy',$query->id);
+                return getTableHtml($query,'actions',$editRoute,$deleteRoute);
+            })->rawColumns(['is_approved','actions'])->make(true);
     }
 
     public function create(array $data)

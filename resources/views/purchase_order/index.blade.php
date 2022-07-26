@@ -21,7 +21,8 @@
                 </div>
             </div>
             <div class="card mt-2 p-4">
-                <table id="datatable" class="table table-bordered">
+                <table id="datatable" class="table border-0 table-striped">
+
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -74,9 +75,9 @@
                     { "data": "id",  'visible': false },
                     { "data": "DT_RowIndex",  orderable: false, searchable: false },
                     { "data": "invoice" },
-                    { "data": "product" },
-                    { "data": "supplier" },
-                    { "data": "category" },
+                    { "data": "product_name" },
+                    { "data": "supplier_name" },
+                    { "data": "category_name" },
                     { "data": "requested_stock" },
                     { "data": "is_approved" },
                     { "data": "actions", orderable: false, searchable: false },

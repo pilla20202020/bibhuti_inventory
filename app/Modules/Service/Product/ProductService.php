@@ -27,12 +27,12 @@ class ProductService extends Service
         $query = $this->product->whereIsDeleted('no');
         return DataTables::of($query)
             ->addIndexColumn()
-            ->editColumn('supplier',function(Product $product) {
+            ->editColumn('supplier_id',function(Product $product) {
                 if($product->supplier->name) {
                     return $product->supplier->name;
                 }
             })
-            ->editColumn('category',function(Product $product) {
+            ->editColumn('category_id',function(Product $product) {
                 if($product->category->name) {
                     return $product->category->name;
                 }

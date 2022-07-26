@@ -21,7 +21,8 @@
                 </div>
             </div>
             <div class="card mt-2 p-4">
-                <table id="datatable" class="table table-bordered">
+                <table id="datatable" class="table border-0 table-striped">
+
                     <thead>
                     <tr>
                         <th>ID</th>

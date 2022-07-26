@@ -6,61 +6,33 @@ use App\Modules\Models\PurchaseEntry\PurchaseEntry;
 use App\Modules\Service\Service;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class PurchaseEntryService extends Service
 {
-    protected $purchase_entry_entry;
+    protected $purchase_entry;
 
-    public function __construct(PurchaseEntry $purchase_entry_entry)
+    public function __construct(PurchaseEntry $purchase_entry)
     {
-        $this->purchase_entry = $purchase_entry_entry;
+        $this->purchase_entry = $purchase_entry;
 
     }
 
 
     /*For DataTable*/
     public function getAllData()
-
     {
-        $query = $this->purchase_entry->whereIsDeleted('no');
+        $query = "SELECT pe.id,pe.available_stock,pe.defective_stock,pe.buying_price,pe.buying_date,p.name as product_name,s.name as supplier_name,c.name as category_name  FROM purchase_entries pe INNER JOIN products p ON pe.product_id = p.id INNER JOIN suppliers s ON p.supplier_id = s.id INNER JOIN categories c ON p.category_id = c.id";
+        $query = DB::select($query);
         return DataTables::of($query)
             ->addIndexColumn()
-            ->editColumn('supplier',function(PurchaseEntry $purchase_entry) {
-                if($purchase_entry->product->supplier->name) {
-                    return $purchase_entry->product->supplier->name;
-                }
-            })
-            ->editColumn('category',function(PurchaseEntry $purchase_entry) {
-                if($purchase_entry->product->category->name) {
-                    return $purchase_entry->product->category->name;
-                }
-            })
-            ->editColumn('product',function(PurchaseEntry $purchase_entry) {
-                if($purchase_entry->product->name) {
-                    return $purchase_entry->product->name;
-                }
-            })
-            ->editColumn('status',function(PurchaseEntry $purchase_entry) {
-                if($purchase_entry->status == 'active'){
-                    return '<span class="badge badge-info">Active</span>';
-                } else {
-                    return '<span class="badge badge-danger">In-Active</span>';
-                }
-            })
-            ->editColumn('image',function(PurchaseEntry $purchase_entry) {
-                if(isset($purchase_entry->image_path)){
-                    return '<img src="http://127.0.0.1:8000/'.($purchase_entry->image_path).'" width="100px">';
-                } else {
-                    ;
-                }
-            })
-            ->editcolumn('actions',function(PurchaseEntry $purchase_entry) {
-                $editRoute =  route('purchase_entry.edit',$purchase_entry->id);
-                $deleteRoute =  route('purchase_entry.destroy',$purchase_entry->id);
-                return getTableHtml($purchase_entry,'actions',$editRoute,$deleteRoute);
-                return getTableHtml($purchase_entry,'image');
-            })->rawColumns(['visibility','availability','status','image'])->make(true);
+
+            ->editcolumn('actions',function($query) {
+                $editRoute =  route('purchase_entry.edit',$query->id);
+                $deleteRoute =  route('purchase_entry.destroy',$query->id);
+                return getTableHtml($query,'actions',$editRoute,$deleteRoute);
+            })->rawColumns(['actions'])->make(true);
     }
 
     public function create(array $data)
