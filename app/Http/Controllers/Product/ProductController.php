@@ -108,7 +108,6 @@ class ProductController extends Controller
     {
         //
         $product = $this->product->find($id);
-
         $branch = $this->branch->paginate();
         $branch_search = $this->branch->find($product->branch_id);
         $category_search = $this->category->find($product->category_id);

@@ -6,15 +6,15 @@
     <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}"/>
 @endsection
 
-@section('title', 'Purchase')
+@section('title', 'Purchase Order List')
 
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="d-flex">
-                <header class="text-capitalize pt-1">Purchase</header>
+                <header class="text-capitalize pt-1">Purchase Order List</header>
                 <div class="tools ml-auto">
-                    <a class="btn btn-primary ink-reaction" href="{{ route('purchase.create') }}">
+                    <a class="btn btn-primary ink-reaction" href="{{ route('purchaseorder.create') }}">
                         <i class="md md-add"></i>
                         Add
                     </a>
@@ -26,13 +26,12 @@
                     <tr>
                         <th>ID</th>
                         <th>S.No.</th>
+                        <th>Invoice Number</th>
+                        <th>Product Name</th>
                         <th>Supplier Name</th>
                         <th>Category</th>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                        <th>Visibility</th>
-                        <th>Availability</th>
-                        <th>Status</th>
+                        <th>Requested Quantity</th>
+                        <th>Approved</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -52,7 +51,7 @@
             $('#datatable').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax": '{{ route('purchase.data') }}',
+                "ajax": '{{ route('purchaseorder.data') }}',
                 // dom: 'Bfrtip',
                 // buttons: [
                 //     'copy', 'csv', 'excel', 'pdf', 'print',
@@ -74,13 +73,12 @@
                 "columns": [
                     { "data": "id",  'visible': false },
                     { "data": "DT_RowIndex",  orderable: false, searchable: false },
+                    { "data": "invoice" },
+                    { "data": "product" },
                     { "data": "supplier" },
                     { "data": "category" },
-                    { "data": "product" },
-                    { "data": "available_stock" },
-                    { "data": "visibility" },
-                    { "data": "availability" },
-                    { "data": "status" },
+                    { "data": "requested_stock" },
+                    { "data": "is_approved" },
                     { "data": "actions", orderable: false, searchable: false },
                 ],
                 order: [ [0, 'desc'] ]

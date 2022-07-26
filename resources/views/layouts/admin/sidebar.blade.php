@@ -107,16 +107,17 @@
                     </ul>
                 </li>
 
-                {{-- <li>
+                <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fas fa-boxes"></i>
-                        <span>Stock Management</span>
+                        <span>Purchase Management</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('purchase.index')}}"><i class="fas fa-hand-point-right"></i> Stock-In / Purchase</a></li>
+                        <li><a href="{{route('purchaseorder.index')}}"><i class="fas fa-hand-point-right"></i>Purchase Order List</a></li>
+                        <li><a href="{{route('purchase_entry.index')}}"><i class="fas fa-hand-point-right"></i>Purchase Entry</a></li>
                         <li><a href="{{route('sale.index')}}"><i class="fas fa-hand-point-right"></i> Stock-Out / Sale</a></li>
                     </ul>
-                </li> --}}
+                </li>
 
             </ul>
         </div>

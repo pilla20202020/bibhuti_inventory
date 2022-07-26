@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Purchase;
+namespace App\Http\Controllers\PurchaseEntry;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Purchase\PurchaseRequest;
 use App\Modules\Service\Category\categoryService;
 use App\Modules\Service\Product\ProductService;
 use App\Modules\Service\Purchase\PurchaseService;
+use App\Modules\Service\PurchaseEntry\PurchaseEntryService;
+use App\Modules\Service\PurchaseOrder\PurchaseOrderService;
 use App\Modules\Service\supplier\SupplierService;
 use Illuminate\Http\Request;
 
-class PurchaseController extends Controller
+class PurchaseEntryController extends Controller
 {
-    protected $product, $supplier, $purchase, $category;
-    function __construct(ProductService $product, SupplierService $supplier, PurchaseService $purchase, CategoryService $category)
+    protected $product, $purchase_entry, $purchase_order;
+    function __construct(ProductService $product, PurchaseEntryService $purchase_entry, PurchaseOrderService $purchase_order)
     {
         $this->product = $product;
-        $this->supplier = $supplier;
-        $this->purchase = $purchase;
-        $this->category = $category;
+        $this->purchase_entry = $purchase_entry;
+        $this->purchase_order = $purchase_order;
 
     }
     /**
@@ -29,15 +30,15 @@ class PurchaseController extends Controller
     public function index()
     {
         //
-        $purchase = $this->purchase->paginate();
-        return view ('purchase.index',compact('purchase'));
+        $purchase_entry = $this->purchase_entry->paginate();
+        return view('purchase_entry.index',compact('purchase_entry'));
 
     }
 
     public function getAllData()
     {
         // dd($this->product);
-        return $this->purchase->getAllData();
+        return $this->purchase_entry->getAllData();
     }
 
 
@@ -49,10 +50,9 @@ class PurchaseController extends Controller
     public function create()
     {
         //
-        $supplier = $this->supplier->paginate();
         $product = $this->product->paginate();
-        $category = $this->category->paginate();
-        return view('purchase.create',compact('supplier','product','category'));
+        $purchase_order = $this->purchase_order->getOnlyUnApproved();
+        return view('purchase_entry.create',compact('product','purchase_order'));
 
     }
 
@@ -71,19 +71,27 @@ class PurchaseController extends Controller
             //     }
             //     return redirect()->route('purchase.index');
             // };
-            $purchase = $this->purchase->getByProductId($request->product_id);
-            if(isset($purchase)) {
-                $purchase = $this->purchase->updateStockWhilePurchase($purchase->id, $request->available_stock);
-            } else {
-                if($purchase = $this->purchase->create($request->all())) {
-                    if($request->hasFile('image')) {
-                        $this->uploadFile($request, $purchase);
-                    }
-
-
+            try {
+                if(isset($request->product_order_id)) {
+                    $purchase_order = $this->purchase_order->find($request->product_order_id);
+                    $purchase_order->is_approved = "approved";
+                    $purchase_order->save();
                 }
+                $purchase_entry = $this->purchase_entry->getByProductId($request->product_id);
+                if(isset($purchase_entry)) {
+                    $purchase_entry = $this->purchase_entry->updateStockWhilePurchase($purchase_entry->id, $request->available_stock, $request->defective_stock);
+                } else {
+                    if($purchase_entry = $this->purchase_entry->create($request->all())) {
+                        if($request->hasFile('image')) {
+                            $this->uploadFile($request, $purchase_entry);
+                        }
+                        Toastr()->success('Purchase Entry Created Successfully','Success');
+                    }
+                }
+                return redirect()->route('purchase_entry.index');
+            } catch (Exception $e) {
+                return false;
             }
-            return redirect()->route('purchase.index');
 
             // if($product) {
             //     $this->purchase->update($product->id,$request->all());
@@ -184,5 +192,19 @@ class PurchaseController extends Controller
                 'message' => "The requested quantity is avialable."
             ]);
         }
+    }
+
+    public function getProductOrder(Request $request)
+    {
+        $data = $this->purchase_order->find($request->product_order);
+        $data['product_name'] = $data->product->name;
+        $data['product_id'] = $data->product->id;
+        return response()->json([
+            'data' => $data,
+            'status' => true,
+            'message' => "Purchase Order Fetched"
+        ]);
+
+
     }
 }

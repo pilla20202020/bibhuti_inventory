@@ -237,20 +237,38 @@ Route::group(['middleware' => 'auth','namespace' => 'App\Http\Controllers'], fun
 
     /*
     |--------------------------------------------------------------------------
-    | Purchase CRUD
+    | PurchaseOrder CRUD
     |--------------------------------------------------------------------------
     |
     */
 
-    Route::group(['as' => 'purchase.', 'prefix' => 'purchase',], function () {
-        Route::get('', 'Purchase\PurchaseController@index')->name('index');
-        Route::get('purchase-data', 'Purchase\PurchaseController@getAllData')->name('data');
-        Route::get('create', 'Purchase\PurchaseController@create')->name('create');
-        Route::post('', 'Purchase\PurchaseController@store')->name('store');
-        Route::get('{purchase}/edit', 'Purchase\PurchaseController@edit')->name('edit');
-        Route::put('{purchase}', 'Purchase\PurchaseController@update')->name('update');
-        Route::get('purchase/{id}/destroy', 'Purchase\PurchaseController@destroy')->name('destroy');
-        Route::post('quntitycheckajax', 'Purchase\PurchaseController@quantityCheckAjax')->name('quntitycheckajax');
+    Route::group(['as' => 'purchaseorder.', 'prefix' => 'purchaseorder',], function () {
+        Route::get('', 'PurchaseOrder\PurchaseOrderController@index')->name('index');
+        Route::get('purchaseorder-data', 'PurchaseOrder\PurchaseOrderController@getAllData')->name('data');
+        Route::get('create', 'PurchaseOrder\PurchaseOrderController@create')->name('create');
+        Route::post('', 'PurchaseOrder\PurchaseOrderController@store')->name('store');
+        Route::get('{purchaseorder}/edit', 'PurchaseOrder\PurchaseOrderController@edit')->name('edit');
+        Route::put('{purchaseorder}', 'PurchaseOrder\PurchaseOrderController@update')->name('update');
+        Route::get('purchaseorder/{id}/destroy', 'PurchaseOrder\PurchaseOrderController@destroy')->name('destroy');
+        Route::post('quntitycheckajax', 'Purchase\PurchaseOrderController@quantityCheckAjax')->name('quntitycheckajax');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | PurchaseEntry CRUD
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    Route::group(['as' => 'purchase_entry.', 'prefix' => 'purchase-entry',], function () {
+        Route::get('', 'PurchaseEntry\PurchaseEntryController@index')->name('index');
+        Route::get('purchase-data', 'PurchaseEntry\PurchaseEntryController@getAllData')->name('data');
+        Route::get('create', 'PurchaseEntry\PurchaseEntryController@create')->name('create');
+        Route::post('', 'PurchaseEntry\PurchaseEntryController@store')->name('store');
+        Route::get('{purchase}/edit', 'PurchaseEntry\PurchaseEntryController@edit')->name('edit');
+        Route::put('{purchase}', 'PurchaseEntry\PurchaseEntryController@update')->name('update');
+        Route::get('purchase/{id}/destroy', 'PurchaseEntry\PurchaseEntryController@destroy')->name('destroy');
+        Route::get('getproductorder', 'PurchaseEntry\PurchaseEntryController@getProductOrder')->name('getproductorder');
     });
 
     /*

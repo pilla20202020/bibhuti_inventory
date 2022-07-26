@@ -69,7 +69,7 @@ class unitService extends Service
     public function paginate(array $filter = [])
     {
         $filter['limit'] = 25;
-        return $this->unit->orderBy('id','DESC')->whereIsDeleted('no')->paginate($filter['limit']);
+        return $this->unit->orderBy('id','DESC')->paginate($filter['limit']);
     }
 
     /**
@@ -92,7 +92,7 @@ class unitService extends Service
     public function find($unitId)
     {
         try {
-            return $this->unit->whereIsDeleted('no')->find($unitId);
+            return $this->unit->find($unitId);
         } catch (Exception $e) {
             return null;
         }

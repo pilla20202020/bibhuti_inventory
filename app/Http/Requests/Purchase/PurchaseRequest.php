@@ -25,7 +25,7 @@ class PurchaseRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'supplier_id'=>'required'
+            'product_id'=>'required'
         ];
 
         return $rules;

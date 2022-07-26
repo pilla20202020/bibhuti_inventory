@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Modules\Models\Purchase;
+namespace App\Modules\Models\PurchaseOrder;
 
-use App\Modules\Models\User;
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Modules\Models\User;
+use Cviebrock\EloquentSluggable\Sluggable;
 
-class Purchase extends Model
+class PurchaseOrder extends Model
 {
     use HasFactory;
 
     use Sluggable;
 
-    protected $path = 'uploads/purchase';
+    protected $path = 'uploads/purchaseorder';
 
     public function sluggable() : array
     {
@@ -25,7 +25,7 @@ class Purchase extends Model
     }
 
     protected $fillable= [
-        'available_stock', 'defective_stock','buying_price','buying_date','category_id','supplier_id','product_id','image','description', 'status', 'availability','visibility','is_deleted','is_default',
+        'requested_stock','invoice','buying_price','buying_date','product_id','image','description', 'status', 'availability','visibility','is_deleted','is_default',
         'deleted_at','created_by','last_updated_by','last_deleted_by'
     ];
 
@@ -60,6 +60,4 @@ class Purchase extends Model
     public function product(){
         return $this->belongsTo('App\Modules\Models\Product\Product', 'product_id','id');
     }
-
-
 }
