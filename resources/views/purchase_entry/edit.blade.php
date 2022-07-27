@@ -5,15 +5,15 @@
     <link href="{{ asset('resources/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
 @endsection
 
-@section('title',$purchase->name)
+@section('title',$purchase_entry->name)
 
 @section('content')
     <section>
         <div class="section-body">
-            <form class="form form-validate floating-label" action="{{route('purchase.update',$purchase->id)}}"
+            <form class="form form-validate floating-label" action="{{route('purchase_entry.update',$purchase_entry->id)}}"
                   method="POST" enctype="multipart/form-data" >
             @method('PUT')
-            @include('purchase.form', ['header' => 'Edit Purchase <span class="text-primary">('.($purchase->name).')</span>'])
+            @include('purchase_entry.editform', ['header' => 'Edit Purchase <span class="text-primary">('.($purchase_entry->id).')</span>'])
             </form>
         </div>
     </section>

@@ -79,7 +79,7 @@ class PurchaseEntryController extends Controller
                 }
                 $purchase_entry = $this->purchase_entry->getByProductId($request->product_id);
                 if(isset($purchase_entry)) {
-                    $purchase_entry = $this->purchase_entry->updateStockWhilePurchase($purchase_entry->id, $request->available_stock, $request->defective_stock);
+                    $purchase_entry = $this->purchase_entry->updateStockWhilePurchase($purchase_entry->id, $request->available_stock, $request->defective_stock, $request->buying_price);
                 } else {
                     if($purchase_entry = $this->purchase_entry->create($request->all())) {
                         if($request->hasFile('image')) {
@@ -119,14 +119,8 @@ class PurchaseEntryController extends Controller
     public function edit($id)
     {
         //
-        $purchase = $this->purchase->find($id);
-        $category_search = $this->category->find($purchase->category_id);
-        $category =$this->category->paginate();
-        $supplier = $this->supplier->paginate();
-        $supplier_search = $this->supplier->find($purchase->supplier_id);
-        $product = $this->product->paginate();
-        $product_search = $this->supplier->find($purchase->product_id);
-        return view('purchase.edit',compact('purchase','category','category_search','supplier','supplier_search','product','product_search'));
+        $purchase_entry = $this->purchase_entry->find($id);
+        return view('purchase_entry.edit',compact('purchase_entry'));
 
 
 
@@ -142,13 +136,14 @@ class PurchaseEntryController extends Controller
     public function update(Request $request, $id)
     {
         //
-        if($this->purchase->update($id,$request->all()))
+        if($this->purchase_entry->update($id,$request->all()))
         {
             if ($request->hasFile('image')) {
                 $purchase = $this->purchase->find($id);
                 $this->uploadFile($request, $purchase);
             }
-            return redirect()->route('purchase.index');
+            Toastr()->success('Purchase Entry Updated Successfully','Success');
+            return redirect()->route('purchase_entry.index');
         }
     }
 
@@ -161,7 +156,7 @@ class PurchaseEntryController extends Controller
     public function destroy($id)
     {
         //
-        if($this->purchase->delete($id)) {
+        if($this->purchase_entry->delete($id)) {
             return response()->json(['status'=>true]);
         }
     }

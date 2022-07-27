@@ -3,6 +3,8 @@
 namespace App\Modules\Service\PurchaseEntry;
 
 use App\Modules\Models\PurchaseEntry\PurchaseEntry;
+use App\Modules\Models\PurchaseOrder\PurchaseOrder;
+use App\Modules\Service\PurchaseOrder\PurchaseOrderService;
 use App\Modules\Service\Service;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -11,11 +13,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PurchaseEntryService extends Service
 {
-    protected $purchase_entry;
+    protected $purchase_entry, $purchase_order;
 
-    public function __construct(PurchaseEntry $purchase_entry)
+    public function __construct(PurchaseEntry $purchase_entry, PurchaseOrderService $purchase_order)
     {
         $this->purchase_entry = $purchase_entry;
+        $this->purchase_order = $purchase_order;
 
     }
 
@@ -27,7 +30,6 @@ class PurchaseEntryService extends Service
         $query = DB::select($query);
         return DataTables::of($query)
             ->addIndexColumn()
-
             ->editcolumn('actions',function($query) {
                 $editRoute =  route('purchase_entry.edit',$query->id);
                 $deleteRoute =  route('purchase_entry.destroy',$query->id);
@@ -102,7 +104,7 @@ class PurchaseEntryService extends Service
             $data['availability'] = (isset($data['availability']) ?  $data['availability'] : '')=='on' ? 'available' : 'not_available';
             $data['has_subpurchase'] = (isset($data['has_subpurchase']) ?  $data['has_subpurchase'] : '')=='on' ? 'yes' : 'no';
             $data['last_updated_by']= Auth::user()->id;
-            $purchase_entry= $this->purchase->find($purchase_entryId);
+            $purchase_entry= $this->purchase_entry->find($purchase_entryId);
             $purchase_entry = $purchase_entry->update($data);
             //$this->logger->info(' created successfully', $data);
 
@@ -127,12 +129,13 @@ class PurchaseEntryService extends Service
         }
     }
 
-    public function updateStockWhilePurchase($purchase_entryId, $updatepurchase, $defective_stock = null)
+    public function updateStockWhilePurchase($purchase_entryId, $updatepurchase, $defective_stock = null, $buying_price= null)
     {
         try {
             $purchase_entry= $this->purchase_entry->find($purchase_entryId);
             $data['available_stock'] = $updatepurchase + $purchase_entry['available_stock'];
             $data['defective_stock'] = $defective_stock + $purchase_entry['defective_stock'];
+            $data['buying_price'] = ($buying_price + $purchase_entry['buying_price'])/2;
             $purchase_entry = $purchase_entry->update($data);
 
 
@@ -151,12 +154,12 @@ class PurchaseEntryService extends Service
     public function delete($purchase_entryId)
     {
         try {
-
-            $data['last_deleted_by']= Auth::user()->id;
-            $data['deleted_at']= Carbon::now();
-            $purchase_entry = $this->purchase->find($purchase_entryId);
-            $data['is_deleted']='yes';
-            return $purchase_entry = $purchase_entry->update($data);
+            $purchase_entry = $this->purchase_entry->find($purchase_entryId);
+            $purchase_order = $this->purchase_order->getByProductId($purchase_entry->product_id);
+            foreach($purchase_order as $data) {
+                $data->delete();
+            }
+            return $purchase_entry->delete();
 
         } catch (Exception $e) {
             return false;
@@ -213,7 +216,6 @@ class PurchaseEntryService extends Service
         try {
             $purchase_entry = $this->purchase->find($purchase_entryId);
             $purchase_entry = $purchase_entry->update($data);
-
             return $purchase_entry;
         } catch (Exception $e) {
             //$this->logger->error($e->getMessage());

@@ -15,8 +15,8 @@
                 <header class="text-capitalize pt-1">Purchase Entry List</header>
                 <div class="tools ml-auto">
                     <a class="btn btn-primary ink-reaction" href="{{ route('purchase_entry.create') }}">
-                        <i class="md md-add"></i>
-                        Add
+                        <i class="fas fa-plus"></i>
+                        Add Purchase Entry
                     </a>
                 </div>
             </div>
@@ -57,17 +57,38 @@
                 //     // exportOptions: {
                 //     //     columns: 'th:not(:last-child)'
                 //     // }
+
                 // ],
                 dom: 'Bfrtip',
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    ['10 rows', '25 rows', '50 rows', 'Show all']
+                ],
                 buttons: [
+                    'pageLength',
+                    // 'print',
+                    // 'excelHtml5',
+                    // 'pdfHtml5',
                     {
-                        extend: 'excel',
-                        text: 'Export Search Results',
-                        className: 'btn btn-default',
+                        extend: 'excelHtml5',
                         exportOptions: {
                             columns: 'th:not(:last-child)'
                         }
-                    }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: 'th:not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: 'th:not(:last-child)'
+                        }
+                    },
+                    'colvis',
+
                 ],
                 "columns": [
                     { "data": "id",  'visible': false },

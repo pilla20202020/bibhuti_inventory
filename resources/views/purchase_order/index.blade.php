@@ -15,8 +15,8 @@
                 <header class="text-capitalize pt-1">Purchase Order List</header>
                 <div class="tools ml-auto">
                     <a class="btn btn-primary ink-reaction" href="{{ route('purchaseorder.create') }}">
-                        <i class="md md-add"></i>
-                        Add
+                        <i class="fas fa-plus"></i>
+                        Add Purchase Order
                     </a>
                 </div>
             </div>

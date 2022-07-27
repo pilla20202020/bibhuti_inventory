@@ -115,7 +115,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('purchaseorder.index')}}"><i class="fas fa-hand-point-right"></i>Purchase Order List</a></li>
                         <li><a href="{{route('purchase_entry.index')}}"><i class="fas fa-hand-point-right"></i>Purchase Entry</a></li>
-                        <li><a href="{{route('sale.index')}}"><i class="fas fa-hand-point-right"></i> Stock-Out / Sale</a></li>
+                        <li><a href="{{route('sale.index')}}"><i class="fas fa-hand-point-right"></i> Good Recieved Note</a></li>
                     </ul>
                 </li>
 

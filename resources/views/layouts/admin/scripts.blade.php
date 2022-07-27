@@ -72,8 +72,12 @@
                                 success: (data) => {
                                     if (data.status) {
                                         $('#datatable').DataTable().ajax.reload();
+                                        Swal.fire(
+                                        'Deleted!',
+                                        'Your file has been deleted.',
+                                        'success'
+                                        )
                                     } else {
-
                                         Swal.fire({
                                             icon: 'error',
                                             title: 'Oops...',

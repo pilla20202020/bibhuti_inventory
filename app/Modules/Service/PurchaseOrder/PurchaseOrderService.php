@@ -170,12 +170,8 @@ class PurchaseOrderService extends Service
     public function delete($purchaseorderId)
     {
         try {
-
-            $data['last_deleted_by']= Auth::user()->id;
-            $data['deleted_at']= Carbon::now();
             $purchaseorder = $this->purchaseorder->find($purchaseorderId);
-            $data['is_deleted']='yes';
-            return $purchaseorder = $purchaseorder->update($data);
+            return $purchaseorder = $purchaseorder->delete();
 
         } catch (Exception $e) {
             return false;
@@ -196,7 +192,7 @@ class PurchaseOrderService extends Service
     }
 
     public function getByProductId($id){
-        return $this->purchaseorder->whereIsDeleted('no')->whereProductId($id)->first();
+        return $this->purchaseorder->whereIsApproved('approved')->whereProductId($id)->get();
     }
 
     public function getByProductForUpdate($purchaseorder){
