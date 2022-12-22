@@ -2,7 +2,7 @@
 
 namespace App\Modules\Service\Branch;
 
-use App\Modules\Models\branch\branch;
+use App\Modules\Models\Branch\Branch;
 use App\Modules\Service\Service;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;

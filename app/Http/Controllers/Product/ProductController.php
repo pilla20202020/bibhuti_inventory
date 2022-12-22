@@ -11,10 +11,10 @@ use App\Modules\Models\Product\Product;
 use App\Modules\Service\Branch\BranchService;
 use App\Modules\Service\Brand\BrandService;
 use App\Modules\Service\Category\CategoryService;
-use App\Modules\Service\price\PriceService;
+use App\Modules\Service\Price\PriceService;
 use App\Modules\Service\Product\ProductService;
-use App\Modules\Service\supplier\supplierService;
-use App\Modules\Service\Unit\unitService;
+use App\Modules\Service\Supplier\SupplierService;
+use App\Modules\Service\Unit\UnitService;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller

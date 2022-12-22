@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Price;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Price\PriceRequest;
-use App\Modules\Service\price\PriceService;
+use App\Modules\Service\Price\PriceService;
 use App\Modules\Service\Product\ProductService;
 use Illuminate\Http\Request;
 
@@ -125,7 +125,7 @@ class PriceController extends Controller
                 'message' => "Default Price Not Found."
             ]);
         }
-        
+
 
     }
 }

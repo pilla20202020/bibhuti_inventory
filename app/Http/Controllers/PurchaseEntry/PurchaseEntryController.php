@@ -9,7 +9,7 @@ use App\Modules\Service\Product\ProductService;
 use App\Modules\Service\Purchase\PurchaseService;
 use App\Modules\Service\PurchaseEntry\PurchaseEntryService;
 use App\Modules\Service\PurchaseOrder\PurchaseOrderService;
-use App\Modules\Service\supplier\SupplierService;
+use App\Modules\Service\Supplier\SupplierService;
 use Illuminate\Http\Request;
 
 class PurchaseEntryController extends Controller

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
-class unitService extends Service
+class UnitService extends Service
 {
     protected $unit;
 

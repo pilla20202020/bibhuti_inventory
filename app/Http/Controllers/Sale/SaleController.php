@@ -7,7 +7,7 @@ use App\Http\Requests\Sale\SaleRequest;
 use App\Modules\Models\SaleDetail\SaleDetail;
 use App\Modules\Service\Category\CategoryService;
 use App\Modules\Service\Customer\CustomerService;
-use App\Modules\Service\price\PriceService;
+use App\Modules\Service\Price\PriceService;
 use App\Modules\Service\Product\ProductService;
 use App\Modules\Service\Purchase\PurchaseService;
 use App\Modules\Service\Sale\SaleService;
